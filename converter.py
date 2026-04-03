@@ -128,6 +128,7 @@ def extract_page(fitz_doc, plumber_doc, page_index: int) -> str:
         return False
 
     pending_number = None   # buffers a lone digit line like "1" until next line
+    in_code_block  = False  # tracks whether we are inside a fenced code block
 
     for block in blocks:
         if block.get("type") != 0:
@@ -147,17 +148,35 @@ def extract_page(fitz_doc, plumber_doc, page_index: int) -> str:
         for line in block.get("lines", []):
             line_parts = []
             line_size  = 0
+            is_code    = False
 
             for span in line.get("spans", []):
                 t = span["text"].strip()
                 if not t:
                     continue
                 line_size = max(line_size, round(span["size"]))
+                # Courier font = monospace = code
+                if 'courier' in span.get("font", "").lower():
+                    is_code = True
                 line_parts.append(_flags_to_md(t, span["flags"]))
 
             raw = ' '.join(line_parts).strip()
             if not raw:
                 continue
+
+            # ── Code block detection ───────────────────────────────────────
+            # Lines rendered in a monospace (Courier) font are treated as
+            # code. Consecutive code lines are grouped into a fenced block.
+            if is_code:
+                if not in_code_block:
+                    md_lines.append('```')
+                    in_code_block = True
+                md_lines.append(raw)
+                continue
+            else:
+                if in_code_block:
+                    md_lines.append('```')
+                    in_code_block = False
 
             # ── Lone number guard ──────────────────────────────────────────
             # Some PDFs style list numbers slightly larger than body text,
@@ -188,6 +207,11 @@ def extract_page(fitz_doc, plumber_doc, page_index: int) -> str:
                     md_lines.append(f'{marker} {content}')
                 else:
                     md_lines.append(raw)
+
+    # Close any open code block
+    if in_code_block:
+        md_lines.append('```')
+        in_code_block = False
 
     # Flush remaining tables
     while table_idx < len(pending_tables):

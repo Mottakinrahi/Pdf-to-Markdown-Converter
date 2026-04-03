@@ -20,7 +20,10 @@ pdf-to-markdown/
 │
 ├── app.py            ← the file you run
 ├── converter.py      ← core logic
-├── samples/          ← put your test PDFs here (optional)
+├── samples/
+│   ├── sample.pdf        ← example input PDF
+│   └── sample.md         ← expected output for sample.pdf
+│
 └── README.md
 ```
 
@@ -31,7 +34,7 @@ pdf-to-markdown/
 ### 1. Clone the repo
 
 ```bash
-git clone https://github.com/Mottakinrahi/Pdf-to-Markdown-Converter.git
+git clone https://github.com/YOUR_USERNAME/pdf-to-markdown.git
 cd pdf-to-markdown
 ```
 
