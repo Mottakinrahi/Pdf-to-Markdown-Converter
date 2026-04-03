@@ -22,7 +22,7 @@ pdf-to-markdown/
 ├── converter.py      ← core logic
 ├── samples/
 │   ├── sample_test.pdf        ← example input PDF
-│   └── test_output.md         ← expected output for sample.pdf
+│   └── test_output.md         ← expected output for sample_test.pdf
 │
 └── README.md
 ```
