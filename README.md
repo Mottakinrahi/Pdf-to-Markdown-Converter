@@ -21,8 +21,8 @@ pdf-to-markdown/
 ├── app.py            ← the file you run
 ├── converter.py      ← core logic
 ├── samples/
-│   ├── sample.pdf        ← example input PDF
-│   └── sample.md         ← expected output for sample.pdf
+│   ├── sample_test.pdf        ← example input PDF
+│   └── test_output.md         ← expected output for sample.pdf
 │
 └── README.md
 ```
