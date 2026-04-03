@@ -19,13 +19,8 @@ Follow these steps to run your first Python script:
 
 ## **Hello World Example**
 
-Here is the classic Hello World program in Python:
-```
-# This is a comment
-def greet(name):
-return f"Hello, {name}!"
-print(greet("World"))
-```
+The simplest Python program is just one line: **print("Hello, World!")** . It calls the built-in print
+function to output text to the terminal.
 
 # **Python Version History**
 
